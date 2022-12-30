@@ -34,18 +34,18 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       res.status(404).send("Query: Image Url is required")
       return
     }
-    filterImageFromURL(image_url).then(response => {
-      console.log("response")
-      console.log(response)
+    try {
+      let response =  await filterImageFromURL(image_url.toString())
       res.status(200).sendFile(response)
       res.on('finish', () => {
         deleteLocalFiles([response])
       })
-    }).catch(error => {
-        console.log("error")
+    } catch (error) {
+      console.log("error")
       console.log(error)
       return res.status(500).send(error)
-      })
+    }
+       
   } );
   //! END @TODO1
   
